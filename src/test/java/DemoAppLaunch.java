@@ -1,5 +1,6 @@
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -29,7 +30,7 @@ import java.net.URL;
 public class DemoAppLaunch {
     public static void main(String[] args) throws MalformedURLException, InterruptedException {
         DesiredCapabilities cap = new DesiredCapabilities();
-        //mandatory capability
+        //mandatory capability if app is not installed in device, This will install given apk in device
         cap.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + "/ApiDemos-debug.apk");
 
         // Non-mandatory capabilities
@@ -70,11 +71,30 @@ public class DemoAppLaunch {
 
          If we want to start test without stopping running app without clearing app data, we can set noReset to true
          */
+        cap.setCapability(MobileCapabilityType.FULL_RESET, true);
+
+        /*
+        We can install app to connected device using adb command
+        adb install path_to_apk
+
+        We can create driver session for app which is already installed in device using app package and
+        activity
+
+        To view currently opened app package and activity
+        adb shell
+        dumpsys window windows | grep -E 'CurrentFocus|mFocusedApp'
+        or
+        dumpsys window displays | grep -E 'mCurrentFocus'
+                mCurrentFocus will give full name, mFocusedApp will give relative name
+         */
+        cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "io.appium.android.apis");
+        cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".ApiDemos");
 
         AndroidDriver<AndroidElement> driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), cap);
         System.out.println("App launched");
 
         driver.findElementByXPath("//android.widget.TextView[@text='Views']").click();
+        System.out.println("Clicking on Views ");
         Thread.sleep(10000);
         System.out.println("Quitting driver");
         driver.quit();
