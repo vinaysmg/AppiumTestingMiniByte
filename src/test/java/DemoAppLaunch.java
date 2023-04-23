@@ -2,7 +2,10 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -89,12 +92,24 @@ public class DemoAppLaunch {
          */
         cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "io.appium.android.apis");
         cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".ApiDemos");
-
         AndroidDriver<AndroidElement> driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+//        WebDriver driver = new RemoteWebDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
         System.out.println("App launched");
 
-        driver.findElementByXPath("//android.widget.TextView[@text='Views']").click();
+        driver.findElement(By.xpath("//android.widget.TextView[@text='Views']")).click();
         System.out.println("Clicking on Views ");
+
+        /*
+        Valid locator strategies for this request: xpath, id, class name, accessibility id,
+        css selector, -android uiautomator
+            * In Appium xpath won;t support text()
+            * Attribute content-desc is the AccessibilityId: findElementByAccessibilityId()
+            * Attribute resource-id is the Id: findElementById()
+            * Attribute css-selector is not available for NATIVE_APP view
+         */
+        driver.findElementByAccessibilityId("Animation").click();
+        driver.findElementById("android:id/text1").click();
+
         Thread.sleep(10000);
         System.out.println("Quitting driver");
         driver.quit();
