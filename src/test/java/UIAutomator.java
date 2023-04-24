@@ -1,4 +1,7 @@
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
 import org.testng.annotations.Test;
+import util.DriverUtils;
 
 /**
  * UIAutomator is similiar to JavaScriptExecutor in Selenium.
@@ -11,6 +14,7 @@ import org.testng.annotations.Test;
  */
 public class UIAutomator extends BaseTest{
 
+    AndroidDriver<AndroidElement> driver = DriverUtils.getDriver();
     @Test
     public void clickUsingUIAutomator(){
         driver.findElementByAndroidUIAutomator("new UiSelector().text(\"Views\")").click();
@@ -31,6 +35,5 @@ public class UIAutomator extends BaseTest{
     public void scrollToEndUsingUiAutomator(){
         driver.findElementByAndroidUIAutomator("textContains(\"View\")").click();
         driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollToEnd(10)");
-        Android
     }
 }
