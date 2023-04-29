@@ -1,18 +1,16 @@
+import enums.DriverEnvironmens;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.remote.MobileCapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import util.DriverUtils;
+import util.driver.DriverUtils;
 
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
-    AndroidDriver<AndroidElement> driver;
+    WebDriver driver;
     @BeforeMethod
     public void initSession() throws MalformedURLException {
         DriverUtils.initDriver();

@@ -1,7 +1,7 @@
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import org.testng.annotations.Test;
-import util.DriverUtils;
+import util.driver.DriverUtils;
 
 /**
  * UIAutomator is similiar to JavaScriptExecutor in Selenium.
@@ -14,7 +14,7 @@ import util.DriverUtils;
  */
 public class UIAutomator extends BaseTest{
 
-    AndroidDriver<AndroidElement> driver = DriverUtils.getDriver();
+    AndroidDriver<AndroidElement> driver =(AndroidDriver<AndroidElement>) DriverUtils.getDriver();
     @Test
     public void clickUsingUIAutomator(){
         driver.findElementByAndroidUIAutomator("new UiSelector().text(\"Views\")").click();
