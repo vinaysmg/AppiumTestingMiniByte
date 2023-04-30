@@ -12,4 +12,9 @@ public class POM_Test extends BaseTest{
     public void usingDynamicXpath(){
         new HomePage().clickOnMenu("Views");
     }
+
+    @Test
+    public void usingDynamicPageFactory(){
+        new HomePage().clickOnMenuDynamicallyUsingPageFactoryElement("Views");
+    }
 }

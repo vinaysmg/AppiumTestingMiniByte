@@ -1,12 +1,16 @@
 package pages;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import util.driver.DriverUtils;
+
+import java.util.List;
 
 /**
  * Implementing Page Object Model using Page factory.
@@ -14,8 +18,9 @@ import util.driver.DriverUtils;
  * Disadvantages of PageFactory are
  *      - We cannot use dynamic xpaths
  *      - In Web automation we may get StaleElement Exception from Ajax elements
+ *
  */
-public class HomePage {
+public class HomePage extends BasePage{
     AppiumDriver driver = null;
 
     public HomePage(){
@@ -26,12 +31,21 @@ public class HomePage {
     /**
      * @FindBy annotation will only give limited locators.
      * In order to use Android locators we need to use @AndroidFindBy
+     *
+     *   Disadvantage of saving xpath as string is we need to keep seperate locators for iOS and Android.
+     *   So We can avoid is by using page factory. If we mention @AndroidFinfBy @iOSXCUITFindBy to a element
+     *   it is available for both the platform.
      */
 
     @AndroidFindBy(accessibility = "Views")
+    @iOSXCUITFindBy(accessibility = "Views")
     private WebElement views;
 
     String dynamicXpathForMenu = "//android.widget.TextView[@text='%s']";
+
+    @iOSXCUITFindBy(xpath = "//android.widget.TextView")
+    @AndroidFindBy(xpath = "//android.widget.TextView")
+    private List<WebElement> menuOptions;
 
     public void clickOnViews(){
         views.click();
@@ -42,5 +56,17 @@ public class HomePage {
         String xpathMenu = String.format(dynamicXpathForMenu, menu);
         driver.findElementByXPath(xpathMenu).click();
         System.out.println("Clicked on " + menu);
+    }
+
+    public void clickOnMenuDynamicallyUsingPageFactoryElement(String menu){
+//        for(MobileElement element : menuOptions){
+//            if(element.getText().equalsIgnoreCase(menu)){
+//                element.click();
+//                break;
+//            }
+//        }
+
+        menuOptions.parallelStream().filter(element -> element.getText().equals(menu))
+                .findFirst().ifPresent(WebElement::click);
     }
 }
