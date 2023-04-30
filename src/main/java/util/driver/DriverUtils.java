@@ -23,16 +23,19 @@ public class DriverUtils {
                 PropertyUtil.getProperty(PropertyKeys.DriverEnvironment).toUpperCase());
 
         switch (mode) {
-            case LOCAL -> {
+            case LOCAL : {
                 driverTL.set(new LocalMachine().initDriver());
+                break;
             }
-            case BROWSER_STACK -> {
+            case BROWSER_STACK: {
                 driverTL.set(new BrowserStack().initDriver());
+                break;
             }
-            case SAUCE_LABS -> {
+            case SAUCE_LABS: {
                 driverTL.set(new SauceLabs().initDriver());
+                break;
             }
-            default -> {
+            default: {
                 throw new RuntimeException("Invalid environemnt choosen");
             }
         }

@@ -10,8 +10,10 @@ import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.HomePage;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -22,7 +24,6 @@ public class Gestures extends BaseTest{
     AndroidDriver<AndroidElement> androidDriver = (AndroidDriver<AndroidElement>) driver;
     @Test
     public void tapOnWebElement(){
-        System.out.println("is driver Null?, "+ Objects.isNull(driver));
         AndroidElement views = androidDriver.findElementByAccessibilityId("Views");
         new TouchAction<>(androidDriver)
                 .tap(TapOptions.tapOptions().withElement(ElementOption.element(views)))
