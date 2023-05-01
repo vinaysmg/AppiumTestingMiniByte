@@ -1,7 +1,6 @@
 package pages;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -47,9 +46,10 @@ public class HomePage extends BasePage{
     @AndroidFindBy(xpath = "//android.widget.TextView")
     private List<WebElement> menuOptions;
 
-    public void clickOnViews(){
+    public ViewslandingPage clickOnViews(){
         views.click();
         System.out.println("Clicked on views");
+        return new ViewslandingPage();
     }
 
     public void clickOnMenu(String menu){

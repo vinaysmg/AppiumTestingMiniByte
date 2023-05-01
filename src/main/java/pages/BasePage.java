@@ -1,11 +1,19 @@
 package pages;
 
 import enums.Locators;
-import io.appium.java_client.MobileElement;
+import io.appium.java_client.*;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSElement;
+import io.appium.java_client.touch.LongPressOptions;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.ElementOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import util.driver.DriverUtils;
+
+import java.time.Duration;
 
 /**
  * Here reusable methods like click, sendkeys, scroll, swipe can be developed
@@ -45,5 +53,13 @@ public class BasePage {
             default:
                 throw new RuntimeException("Invalid locator type " + locator);
         }
+    }
+
+    public void dragDrop(MobileElement source, MobileElement destination){
+        new TouchAction<>((AppiumDriver<MobileElement>) DriverUtils.getDriver()).longPress(LongPressOptions.longPressOptions().withElement(ElementOption.element(source)))
+                .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
+                .moveTo(ElementOption.element(destination))
+                .release().perform();
+        System.out.println("Peformed drag and drop operation");
     }
 }
