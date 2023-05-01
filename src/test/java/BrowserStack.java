@@ -1,17 +1,23 @@
+import facade.DragDropFacade;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import pages.DragAndDropPage;
+import reports.ExtentReport;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.*;
 
-public class BrowserStack {
+public class BrowserStack extends BaseTest2{
 
-    @Test
+    //@Test
     public void runTestOnBrowserStack() throws MalformedURLException, InterruptedException {
         DesiredCapabilities cap = new DesiredCapabilities();
 
@@ -40,5 +46,30 @@ public class BrowserStack {
         Thread.sleep(10000);
         System.out.println("Quitting driver");
         driver.quit();
+    }
+
+    @Test(dataProvider = "setDeviceCapabilities")
+    public void runTestParalellyBS(Map<String, String> map){
+        new DragDropFacade().moveToDragDropPage();
+        DragAndDropPage dragAndDropPage = new DragAndDropPage();
+        dragAndDropPage.performDragDrop();
+        Assert.assertTrue(dragAndDropPage.isDragDropSuccessful());
+    }
+
+    @DataProvider(parallel = true)
+    public Object[] setDeviceCapabilities(){
+        List<Map<String, String>> list = new ArrayList<>();
+
+        Map<String, String> map = new HashMap<>();
+        map.put(MobileCapabilityType.DEVICE_NAME, "Samsung Galaxy S23 Ultra");
+        map.put(MobileCapabilityType.PLATFORM_VERSION, "13.0");
+        list.add(map);
+
+        Map<String, String> map2 = new HashMap<>();
+        map2.put(MobileCapabilityType.DEVICE_NAME, "Google Pixel 7 Pro");
+        map2.put(MobileCapabilityType.PLATFORM_VERSION, "13.0");
+        list.add(map2);
+
+        return list.toArray();
     }
 }

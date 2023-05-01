@@ -5,6 +5,7 @@ import enums.PropertyKeys;
 import org.openqa.selenium.WebDriver;
 import util.fileUtils.PropertyUtil;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class DriverUtils {
@@ -29,6 +30,33 @@ public class DriverUtils {
             }
             case BROWSER_STACK: {
                 driverTL.set(new BrowserStack().initDriver());
+                break;
+            }
+            case SAUCE_LABS: {
+                driverTL.set(new SauceLabs().initDriver());
+                break;
+            }
+            default: {
+                throw new RuntimeException("Invalid environemnt choosen");
+            }
+        }
+        System.out.println("App launched");
+    }
+
+    public static void intiDriver(Map<String, String> cap){
+        if(Objects.nonNull(driverTL.get()))
+            return;
+
+        DriverEnvironments mode = DriverEnvironments.valueOf(
+                PropertyUtil.getProperty(PropertyKeys.DriverEnvironment).toUpperCase());
+
+        switch (mode) {
+            case LOCAL : {
+                driverTL.set(new LocalMachine().initDriver());
+                break;
+            }
+            case BROWSER_STACK: {
+                driverTL.set(new BrowserStack().initDriver(cap));
                 break;
             }
             case SAUCE_LABS: {

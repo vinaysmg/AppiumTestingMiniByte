@@ -8,6 +8,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 public class BrowserStack implements IDriver{
     @Override
@@ -27,6 +28,30 @@ public class BrowserStack implements IDriver{
         cap.setCapability("build", "Api Demos");
         cap.setCapability("name", "Browser Stack Demo");
 
+        try {
+            return new AndroidDriver<>(new URL("http://hub.browserstack.com/wd/hub"), cap);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public WebDriver initDriver(Map<String, String> deviceCapabilities){
+        DesiredCapabilities cap = new DesiredCapabilities();
+        deviceCapabilities.forEach(cap::setCapability);
+
+        cap.setCapability("browserstack.user", "vinaykumark_cCTaUV");
+        cap.setCapability("browserstack.key", "kmJAzyPsyaxJ5b8m18BV");
+        cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UIAutomator2");
+        cap.setCapability(MobileCapabilityType.PLATFORM_NAME, "android");
+
+        // app path for browser stack we get it once we upload app to browser stack
+        cap.setCapability(MobileCapabilityType.APP, "bs://ac35a1b5c9d1866bb6ec6a047bcc40cbe4581314");
+        cap.setCapability("project", "Appium Testing MiniByte");
+        cap.setCapability("build", "Api Demos");
+        cap.setCapability("name", "Browser Stack Demo");
+
+        System.out.println(cap.toString());
+        System.out.println();
         try {
             return new AndroidDriver<>(new URL("http://hub.browserstack.com/wd/hub"), cap);
         } catch (MalformedURLException e) {

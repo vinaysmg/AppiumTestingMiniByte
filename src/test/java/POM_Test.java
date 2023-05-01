@@ -31,7 +31,6 @@ public class POM_Test extends BaseTest{
         DragAndDropPage dragAndDropPage = new DragAndDropPage();
         dragAndDropPage.performDragDrop();
         Assert.assertTrue(dragAndDropPage.isDragDropSuccessful());
-        ExtentReport.getTest().pass("usingFacadeUtils passed successfully");
     }
 
 }
